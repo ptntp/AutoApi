@@ -33,26 +33,17 @@ AutoApi系列：~~AutoApi(v1.0)~~、~~AutoApiSecret(v2.0)~~、~~AutoApiSR(v3.0)~
 
     * 1）点击打开[应用注册页面](https://go.microsoft.com/fwlink/?linkid=2083908)，点击+**新注册**
     
-     ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApiP/creatapp.png)
-    
     * 2）填入名字，“ 受支持账户类型 ”选第三个，“ 重定向url ”填入 https://login.microsoftonline.com/common/oauth2/nativeclient （不要按图片或者视频教程填，那是老版本的），点击**注册**
-    
-    ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApiP/creatapp2.png)
     
     * 3）复制应用程序（客户端）ID到记事本备用(**获得了应用程序ID**！)，点击左边管理的**证书和密码**，点击+**新客户端密码**，点击添加，复制新客户端密码的**值**保存（**获得了应用程序密码**！）
     
-    ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApiP/creatapp3.png)
-    
-    ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApiP/creatapp4.png)
     
 * **第二步，获取refresh_token(微软密钥)**
 
     * 两种选择：
         * 下载项目里的GetToken.html文件；或者本地新建html后缀文档，把GetToken.html的内容复制到里面。然后本地打开，根据里面提示获取refresh_token.
-        * 进入**[在线版](https://wangziyingwen.github.io/)**，根据提示获取refresh_token
-               
-    
-    ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApi/token地方.png)
+        * 要把 header 的 Origin 去掉，不然會出錯
+              
     
  ___________________________________________________
  #### GITHUB方面的准备工作 ####
@@ -61,52 +52,45 @@ AutoApi系列：~~AutoApi(v1.0)~~、~~AutoApiSecret(v2.0)~~、~~AutoApiSR(v3.0)~
  
      登陆/新建github账号，回到本项目页面，点击右上角fork本项目的代码到你自己的账号，然后你账号下会出现一个一模一样的项目，接下来的操作均在你的这个项目下进行。
      
-     ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApi/fork.png)
+
      
  * **第二步，新建github密钥**
  
     * 1）进入你的个人设置页面 (右上角头像 Settings，不是仓库里的 Settings)，选择 Developer settings -> Personal access tokens -> Generate new token
 
-    ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApi/Settings.png)
-    
-    ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApi/token.png)
     
     * 2）设置名字为 **GH_TOKEN** , 然后勾选repo，点击 Generate token ，最后**复制保存**生成的github密钥（**获得了github密钥**，一旦离开页面下次就看不到了！）
    
-   ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApiP/repo.png)
   
  * **第三步，新建secret**
  
     * 1）依次点击页面上栏右边的 Setting -> 左栏 Secrets -> 右上 New repository secret，新建6个secret： **GH_TOKEN、MS_TOKEN、CLIENT_ID、CLIENT_SECRET、CITY、EMAIL**  
    
-    ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApiP/setting.png)
-    
-    ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApiP/secret2.png)
     
      **(以下填入内容注意前后不要有空格空行)**
  
      GH_TOKEN
-     ```shell
+     ```
      github密钥 (第三步获得)，例如获得的密钥是abc...xyz，则在secret页面直接粘贴进去，不用做任何修改，只需保证前后没有空格空行
      ```
      MS_TOKEN
-     ```shell
+     ```
      微软密钥（第二步获得的refresh_token）
      ```
      CLIENT_ID
-     ```shell
+     ```
      应用程序ID (第一步获得)
      ```
      CLIENT_SECRET
-     ```shell
+     ```
      应用程序密码 (第一步获得)
      ```
      CITY
-     ```shell
+     ```
      城市 (例如Beijing,自动发送天气邮件要用到)
      ```
      EMAIL
-     ```shell
+     ```
      收件邮箱 (自动发送天气邮件要用到)
      ```
 
