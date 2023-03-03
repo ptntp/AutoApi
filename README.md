@@ -1,212 +1,160 @@
-# AutoApi v6.2.1 (2021-2-17) ———— E5自动续期
-AutoApi系列：~~AutoApi(v1.0)~~、~~AutoApiSecret(v2.0)~~、~~AutoApiSR(v3.0)~~、~~AutoApiS(v4.0)~~、~~AutoApiP(v5.0)~~
+# AutoApi (2021-6-24) ———— E5自動續期
 
-## 说明 ##
-* E5自动续期程序，但是**不保证续期**
-* 设置了**周六日(UTC时间)不启动**自动调用，周1-5每6小时自动启动一次 （修改看教程）
-* 调用api保活：
-     * 查询系api：onedrive,outkook,notebook,site等
-     * 创建系api: 自动发送邮件，上传文件，修改excel等
+## 說明 ##
+* E5自動續期程序，但是**不保證續期**
+* 設置了**週六日(UTC時間)不啓動**自動調用，周1-5每6小時自動啓動一次 （修改看教程）
+* 調用api保活：
+     * 查詢系api：onedrive,outkook,notebook,site等
+     * 創建系api: 自動發送郵件，上傳文件，修改excel等
      
-### 相关 ###
+### 相關 ###
 * AutoApi: https://github.com/wangziyingwen/AutoApi
-* **错误及解决办法/续期相关知识/更新日志**：https://github.com/wangziyingwen/Autoapi-test
-   * 大部分错误说明已更新进程序，详细请运行后看action日志报告
-* 视频教程：
-   * B站：https://www.bilibili.com/video/BV185411n7Mq/
+* **錯誤及解決辦法/續期相關知識/更新日誌**：https://github.com/wangziyingwen/Autoapi-test
+   * 大部分錯誤說明已更新進程序，詳細請運行後看action日誌報告
 
-## 步骤 ##
-* 准备工具：
-   * E5开发者账号（**非个人/私人账号**）
-       * 管理员号 ———— 必选 
-       * 子号 ———— 可选 （不清楚微软是否会统计子号的活跃度，想弄可选择性补充运行）    
-   * 教程图片看不到请科学上网
+## 步驟 ##
+* 準備工具：
+   * E5開發者賬號（**非個人/私人賬號**）
+       * 管理員號 ———— 必需 
    
-* 步骤大纲：
-   * 微软方面的准备工作 （获取应用id、密码、密钥）
-   * GIHTHUB方面的准备工作  （获取Github密钥、设置secret）
-   * 试运行
+* 步驟大綱：
+   * 微軟獲取**應用程式ID**、**應用程式密碼**、**密鑰**
+   * GIHTHUB方面的準備工作  （獲取Github密鑰、設置secret）
+   * 試運行
    
-#### 微软方面的准备工作 ####
+#### 微軟方面的準備工作 ####
 
-* **第一步，注册应用，获取应用id、secret**
+* **第一步，註冊應用，獲取應用id、secret**
 
-    * 1）点击打开[应用注册页面](https://go.microsoft.com/fwlink/?linkid=2083908)，点击+**新注册**
+    * 1）點擊打開[應用註冊頁面](https://go.microsoft.com/fwlink/?linkid=2083908)，點擊+**新增註冊**
     
-    * 2）填入名字，“ 受支持账户类型 ”选第三个，“ 重定向url ”填入 https://login.microsoftonline.com/common/oauth2/nativeclient （不要按图片或者视频教程填，那是老版本的），点击**注册**
+    * 2）填入名稱，「 支援的帳戶類型 」選第三個" **任何組織目錄中的帳戶 (任何 Azure AD 目錄 - 多租用戶) 和個人 Microsoft 帳戶 (例如 Skype、Xbox)**
     
-    * 3）复制应用程序（客户端）ID到记事本备用(**获得了应用程序ID**！)，点击左边管理的**证书和密码**，点击+**新客户端密码**，点击添加，复制新客户端密码的**值**保存（**获得了应用程序密码**！）
-    
-    
-* **第二步，获取refresh_token(微软密钥)**
+    * 重新導向 URI Web 填入 https://login.microsoftonline.com/common/oauth2/nativeclient 點擊**註冊**
+        
+    * 3）複製 **應用程式 (用戶端) 識別碼** 到記事本(**這是應用程式ID**！)，點選左邊管理的**憑證及祕密**，點選+**用戶端密碼**，設定到期時間，最高爲兩年，在點選新增，複製用戶端密碼的**值**保存（**這是應用程式密碼**！）
+    	*  [進階應用] 抓到設定 token 的網路請求後，可以發現有一個到期的日期，請求裡面是兩年，修改請求之後重放，就可以改超長時間了！ 
+       
+* **第二步，取得refresh_token(微軟密鑰)**
 
-    * 两种选择：
-        * 下载项目里的GetToken.html文件；或者本地新建html后缀文档，把GetToken.html的内容复制到里面。然后本地打开，根据里面提示获取refresh_token.
-        * 要把 header 的 Origin 去掉，不然會出錯
-              
+    * 打開資料夾內的GetToken.html檔案
+    * 輸入應用id = 應用程式ID
+    * 輸入應用密碼 = 應用程式密碼
+    * 點選管理員號旁邊的**獲取code**進去之後底下打勾，按接受，再點選底下**先點此按鈕，用管理員號登錄授權**，底下按接受。呈現空白頁正常
+    * 回到 AutoApi GetToken 畫面，點選管理員號旁邊**獲取code**，呈現空白後，複製網址，貼在右邊的**輸入url-code**，接著按**獲取Token**
+    * 會跳到一個新網頁，內容寫 error 是沒錯的，接下來比較複雜一點
+    * Firefox 滑鼠右鍵 -> 檢查 -> 找到 Network -> 搜尋打上 Token 後，重新整理頁面 -> 底下出現一個 Token -> 右鍵 -> Copy -> cURL
+    * Chrome 開啓開發者工具，一樣上面找到 Netwrok 搜尋打上 Token ......同上
+    * 複製到，記事本，或者是文字編輯軟體都可以，找到 **-H 'Origin: null' \** ，刪除他
+    * 然後整段複製，丟到 終端機 裏面...按下回車鍵 Enter (此爲 Mac 系統操作)
+    * Windows 使用者，需另找 curl 指令安裝，或者使用 https://reqbin.com/curl 執行
+    * 之後就會帶出一大段代碼找到 **refresh_token":"** 這個地方**這是密鑰**，複製後面**冒號**裏面的文字，最後**"}%** 不要複製
     
  ___________________________________________________
- #### GITHUB方面的准备工作 ####
+ #### GITHUB準備工作 ####
 
- * **第一步，fork本项目**
+ * **第一步，新建repository項目**
  
-     登陆/新建github账号，回到本项目页面，点击右上角fork本项目的代码到你自己的账号，然后你账号下会出现一个一模一样的项目，接下来的操作均在你的这个项目下进行。
+     新建新的repository，設定隱私，設定名稱，上傳下載的檔案，除了.yml不用上傳，其他一律上傳
      
-
-     
- * **第二步，新建github密钥**
+ * **第二步，新建github密鑰**
  
-    * 1）进入你的个人设置页面 (右上角头像 Settings，不是仓库里的 Settings)，选择 Developer settings -> Personal access tokens -> Generate new token
-
+    * 1）進入你的個人設置頁面 (右上角頭像 Settings)，選擇 Developer settings -> Personal access tokens -> Generate new token
     
-    * 2）设置名字为 **GH_TOKEN** , 然后勾选repo，点击 Generate token ，最后**复制保存**生成的github密钥（**获得了github密钥**，一旦离开页面下次就看不到了！）
+    * 2）設置名字為 **GH_TOKEN** , 然後勾選repo，點擊 Generate token ，最後**複製保存**生成的github密鑰（**獲得了github密鑰**，一旦離開頁面下次就看不到了！）
    
-  
  * **第三步，新建secret**
  
-    * 1）依次点击页面上栏右边的 Setting -> 左栏 Secrets -> 右上 New repository secret，新建6个secret： **GH_TOKEN、MS_TOKEN、CLIENT_ID、CLIENT_SECRET、CITY、EMAIL**  
-   
+    * 1）進去專案後點選 Settings -> 左邊 Secrets -> 右上 New repository secret，新建6個secret： **GH_TOKEN、MS_TOKEN、CLIENT_ID、CLIENT_SECRET、CITY、EMAIL**  
+
     
-     **(以下填入内容注意前后不要有空格空行)**
+     **(以下填入內容注意前後不要有空格空行)**
  
      GH_TOKEN
-     ```
-     github密钥 (第三步获得)，例如获得的密钥是abc...xyz，则在secret页面直接粘贴进去，不用做任何修改，只需保证前后没有空格空行
+     ```shell
+     github密鑰 (第三步獲得)，例如獲得的密鑰是abc...xyz，則在secret頁面直接粘貼進去，不用做任何修改，只需保證前後沒有空格空行
      ```
      MS_TOKEN
-     ```
-     微软密钥（第二步获得的refresh_token）
+     ```shell
+     微軟密鑰（第二步獲得的refresh_token）
      ```
      CLIENT_ID
-     ```
-     应用程序ID (第一步获得)
+     ```shell
+     應用程序ID (第一步獲得)
      ```
      CLIENT_SECRET
-     ```
-     应用程序密码 (第一步获得)
+     ```shell
+     應用程序密碼 (第一步獲得)
      ```
      CITY
-     ```
-     城市 (例如Beijing,自动发送天气邮件要用到)
+     ```shell
+     城市 (例如Taipei,自動發送天氣郵件要用到)
      ```
      EMAIL
+     ```shell
+     收件郵箱 (自動發送天氣郵件要用到)
      ```
-     收件邮箱 (自动发送天气邮件要用到)
-     ```
+ * **第四步，設定 workflows **
 
+    * 1）點擊 Actions ，點選  ** set up a workflow yourself **
+    * 依照資料夾內三個 ApiOfRead.yml、ApiOfWrite.yml、UpdateToken.yml 檔案內容，一樣複製貼上，並建立成三個檔案
+    * 內容複製貼上後，名稱也對應打上，點選右邊 Start commit -> 點選 Commit new file 就可以存檔
+    * 餐個檔案設定完後，在 Actions 底下，會出現三個名稱 Run Api.Read 、Run Api.Write、 Update Token 三個
 
 ________________________________________________
 
-#### 试运行 ####
+#### 試運行 ####
 
-   * 1）点击上栏中间的Action进入运行日志页面，中间应该有个绿色按钮（I understand my workflow...），点击。
+   * 1）點擊上欄中間的Action進入運行日誌頁面
    
-       自动刷新后，会看到左边有三个流程，一个Run api.Read，一个Run api.Write，一个Update Token。
+       會看到左邊有三個流程，一個Run api.Read，一個Run api.Write，一個Update Token。
        
-         工作流程说明
-             Run api.Write：创建系api，一天自动运行一次
-             Run api.Read:  查询系api，每6小时自动运行一次
-             Update Token： 微软密钥更新，每2天运行一次
+         工作流程說明
+             Run api.Write：創建系api，一天自動運行一次
+             Run api.Read:  查詢系api，每6小時自動運行一次
+             Update Token： 微軟密鑰更新，每2天運行一次
              
-       这三个流程名字前面应该是都有黄色感叹号的
    
-       分别点进去，然后会看到有个黄条（this schedule was disabled......），点击 enable workflow 按钮，**三个流程都要按这个！**
+   * 2）點擊兩次右上角的星星（Unstar，就是fork按鈕的隔壁）啓動action，
    
-       （不确定是否都需要进行这一步，我自己做视频教程的时候发现有的。如果你没有，直接忽略并往下进行，能正常运行就可以了 ）
-   
-   * 2）点击两次右上角的星星（star，就是fork按钮的隔壁）启动action，
-   
-        再点击上面的Action选择Run api.Read或者api.Write流程 -> build -> run api 就能看到每次的运行日志
+        再點擊上面的Action選擇Run api.Read或者api.Write流程 -> build -> run api 就能看到每次的運行日誌
 
-       （必需点进去build里面的run api.XXX看下，api有没有调用到位，操作有没有成功，有没有出错）
+       （必需點進去build裡面的run api.XXX看下，api有沒有調用到位，操作有沒有成功，有沒有出錯）
 
-        ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApi/日志.png)
      
-   * 3）再点两次星星，查看是否能再次成功运行
+   * 3）再點兩次星星，查看是否能再次成功運行
    
-        然后点击Action里的 update token 流程 -> build -> update token ，日志里显示“微软密钥上传成功”。
+        然後點擊Action里的 update token 流程 -> build -> update token ，日誌里顯示「微軟密鑰上傳成功」。
        
-        同时，依次点击页面上栏右边的 Setting -> 左栏 Secrets（也就是Github方面准备的第三步的secret页面），应该能看到MS_TOKEN显示刚刚update了
+        同時，依次點擊頁面上欄右邊的 Setting -> 左欄 Secrets（也就是Github方面準備的第三步的secret頁面），應該能看到MS_TOKEN顯示剛剛update了
         
-        （这一步是为了保证重新上传到secret的token是正确的）
+        （這一步是為了保證重新上傳到secret的token是正確的）
+        
+       
+   * 4）最終確認 Actions 底下的 三個流程，點進去後右手邊有出現綠色打勾，才是正常執行
     
         
-#### 教程最后 ####
+#### 教程最後 ####
 
-   程序会自行按计划启动，不必操心。
+   程序會自行按計劃啓動，不必操心。
    
-        但是github更新了防止薅羊毛的规则，如果仓库60天无任何变动，将会暂停Action，但是会发邮件通知，所以请留意邮箱，收到邮件请上来手动启动一下action。
-       （我还没有收到过此邮件，但是据说邮件里会有启动链接，或者上来按两次星星按钮就行）
-   
-   **P版（AutoApiP）用户请留意是否会触发此暂停规则，由于P版采取了新方案，是否能跳过github检测活跃呢？如果P版收到暂停邮件，最好在issues的这个帖子[触发暂停统计](https://github.com/wangziyingwen/AutoApiP/issues/7)里留言**
+        但是github更新了防止薅羊毛的規則，如果倉庫60天無任何變動，將會暫停Action，但是會發郵件通知，所以請留意郵箱，收到郵件請上來手動啓動一下action。
+       （我還沒有收到過此郵件，但是據說郵件里會有啓動鏈接，或者上來按兩次星星按鈕就行）
    
    
 ### 教程完 ###
 
 __________________________________________________________________________
 
-## 额外设置 （看不懂请忽略）##
-   * **定时启动修改**
+## 額外設置 （看不懂請忽略）##
+   * **定時啓動修改**
 
-   * **多账号/应用支持**
+   * **多賬號/應用支持**
     
-   * **超级参数设置**
+   * **超級參數設置**
 
-#### 定时启动修改 ####
+#### 定時啓動修改 ####
    
-   我设定的每6小时自动运行一次（周六日不启动），每次调用3轮（点击右上角星星/star也可以立马调用一次），你们自行斟酌修改（我也不知道保持活跃要调用多少次、多久）：
+   我設定的每6小時自動運行一次（週六日不啓動），每次調用3輪（點擊右上角星星/star也可以立馬調用一次），你們自行斟酌修改（我也不知道保持活躍要調用多少次、多久）：
 
-  * 定时自动启动修改地方：在.github/workflow/autoapi.yml(只修改这一个)文件里，自行百度cron定时任务格式，最短每5分钟一次
-   
-   ![image](https://github.com/wangziyingwen/ImageHosting/blob/master/AutoApi/定时.png)
-    
-#### 多账号/应用支持 ####
-
-   如果想输入第二账号或者应用，请按上述步骤获取**第二个应用的id、密码、微软密钥：**
- 
-   再按以下步骤：
- 
-   1)增加secret
- 
-   依次点击页面上栏右边的 Setting -> 左栏 Secrets -> 右上 New repository secret，新增加secret：APP_NUM、MS_TOKEN_2、CLIENT_ID_2、CLIENT_SECRET_2
- 
-   APP_NUM
-   ```shell
-   账号/应用数量(现在例如是两个账号/应用，就是2 ；3个账号就填3，日后如果想要增加请修改APP_NUM)
-   ```
-   MS_TOKEN_2
-   ```shell
-   第二个账号的微软密钥（第二步refresh_token），（第三个账号/应用就是MS_TOKEN_3，如此类推）
-   ```
-   CLIENT_ID_2
-   ```shell
-   第二个账号的应用程序ID (第一步获取),（第三个账号/应用就是CLIENT_ID_3，如此类推）
-   ```
-   CLIENT_SECRET_2
-   ```shell
-   第二个账号的应用程序密码 (第一步获取),（第三个账号/应用就是CLIENT_SECRET_3，如此类推）
-   ```
-   
-   2)修改.github/workflows/里的两个yml文件（**超过5个账号需要更改，5个及以下暂时不用修改文件，忽略这一步**）
-    
-   yml文件我已经注明了，看着改就行，我已经写入5个账号模板了，跟着复制粘贴很简单的（没有找到比较好的自动方案）
-  
-#### 超级参数设置 ####
- 
-   ApiOfRead.py ， ApiOfWrite.py 文件第11左右行各有个config，具体参数设置已在文件里说明
-   
-   包括账号api的随机延时，api随机排序，每次轮数等参数
-     
-   
-### 结尾 ###
-
-有事发issue
-
-Q群：[657581700](https://jq.qq.com/?_wv=1027&k=5FQJbWmV)  （项目相关讨论）
-
-                              wangziyingwen
-    
-
-
-
-
+  * 定時自動啓動修改地方：在.github/workflow/autoapi.yml(只修改這一個)文件里，自行百度cron定時任務格式，最短每5分鐘一次
